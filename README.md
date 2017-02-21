@@ -4,6 +4,7 @@
 VolCE is a tool designed for computing or estimating the size of the solution space of an SMT(LA) formula. If you are not familiar with VolCE, you can read the [manual](manual.pdf). It is licensed under the [GNU General Public License](COPYING).
 
 ## Directories
+|  ------------- |  ------------- |
 | release_64bit/	| Binary files compiled on Ubuntu 14.04 64-bit, including Z3, Vinci and LattE |
 | src/				| Sorce codes |
 | build.sh			| Shell for building VolCE |
