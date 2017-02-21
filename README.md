@@ -22,20 +22,21 @@ This release of VolCE has been successfully built on the following operating sys
 * Ubuntu 12.04 on 32-bit with g++ 4.8.1
 
 ## Building VolCE
-* Step 1: Make sure that g++ (version 4.8 or higher version) is installed on your machine (you can type \g++ -v" to check this).
+* Step 1: Make sure that g++ (version 4.8 or higher version) is installed on your machine (you can type "g++ -v" to check this).
 * Step 2: The functionality of VolCE is dependent on some other libraries: [boost](http://www.boost.org/), [glpk](http://www.gnu.org/software/glpk/), and [Armadillo](http://arma.sourceforge.net/).
 * Step 3: Execute:
 ```bash
 sh build.sh
 ```
-* Step 4: Build and install [LattE](https://www.math.ucdavis.edu/~latte/). Then move the executable files (*count* and *scdd\_gmp*) into directory 'bin/'. For 64-bit user, one could copy *count* and *scdd\_gmp* directly from [compiled binary files](release_64bit/volce3_release_64bit.zip).
-* Quick test, simply execute
+* Step 4: Build and install [LattE](https://www.math.ucdavis.edu/~latte/). Then move the executable files (*count* and *scdd\_gmp*) into directory *bin/*. For 64-bit user, one could copy *count* and *scdd\_gmp* directly from [compiled binary files](release_64bit/volce3_release_64bit.zip).
+
+Quick test, simply execute
 ```bash
 ./volce3 -h
 ```
 VolCE should pop up the help by this command.
 
-**Note:** Move or copy 'volce3' with directory 'bin/' together since VolCE3 requires the tools in 'bin/'.
+**Note:** Move or copy *volce3* with directory *bin/* together since VolCE3 requires the tools in *bin/*.
 
 ### Quick guide for building on Ubuntu
 
@@ -50,7 +51,7 @@ sh build.sh
 ```
 
 Build and install [LattE](https://www.math.ucdavis.edu/~latte/), then move the executable files (*count* and
-*scdd\_gmp*) into directory 'bin/'. For 64-bit user, one could copy *count* and *scdd\_gmp* directly from [compiled binary files](release_64bit/volce3_release_64bit.zip).
+*scdd\_gmp*) into directory *bin/*. For 64-bit user, one could copy *count* and *scdd\_gmp* directly from [compiled binary files](release_64bit/volce3_release_64bit.zip).
 
 **Note:** On older versions of Ubuntu, you may need install g++-4.8 (or higher version) by hand.
 
