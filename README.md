@@ -55,7 +55,7 @@ Build and install [LattE](https://www.math.ucdavis.edu/~latte/), then move the e
 
 **Note:** On older versions of Ubuntu, you may need install g++-4.8 (or higher version) by hand.
 
-# Questions/Feedback/Comments #
+### Questions/Feedback/Comments ###
 Please contact:
 
   1. Cunjing Ge ([gecj@ios.ac.cn](mailto:gecj@ios.ac.cn))
