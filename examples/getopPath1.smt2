@@ -1,0 +1,8 @@
+(set-logic QF_LIA)
+(set-info :smt-lib-version 2.0)
+(set-info :status sat)
+(declare-fun c () Int)
+(assert (not (or (= c 32) (= c 9) (= c 10))))
+(assert (and (distinct c 46) (or (< c 48) (> c 57))))
+(check-sat)
+(exit)
