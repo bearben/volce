@@ -1,3 +1,15 @@
+/*  error.cpp
+ *
+ *  Copyright (C) 2016-2017 Cunjing Ge.
+ *
+ *  All rights reserved.
+ *
+ *  This file is part of VolCE.
+ *  See COPYING for more information on using this software.
+ */
+
+
+
 #include <solver.h>
 
 void volce::solver::err_all(const ERROR_TYPE e, const std::string s, const unsigned int ln) const {
