@@ -6,15 +6,15 @@ VolCE is a tool designed for computing or estimating the size of the solution sp
 ## Directories
 | Name           | Description   |
 |  ------------- | ------------- |
-| release_64bit/	| Binary files compiled on Ubuntu 14.04 64-bit, including Z3, Vinci and LattE |
-| src/				| Sorce codes |
-| build.sh			| Shell for building VolCE |
-| COPYING			| GNU GPL lincese |
-| examples.zip		| Some examples of SMT(LA) formulas |
-| makefile			| makefile |
-| manual.pdf		| Manual for VolCE |
-| vinci-1.0.5.zip	| Source codes for a modified version of Vinci |
-| z3-master.zip		| Source codes of Z3 |
+| [release_64bit/](release_64bit/)	| Binary files compiled on Ubuntu 14.04 64-bit, including Z3, Vinci and LattE |
+| [src/](src/) | Sorce codes |
+| [build.sh](build.sh) | Shell for building VolCE |
+| [COPYING](COPYING) | GNU GPL lincese |
+| [examples.zip](examples.zip) | Some examples of SMT(LA) formulas |
+| [makefile](makefile) | makefile |
+| [manual.pdf](manual.pdf) | Manual for VolCE |
+| [vinci-1.0.5.zip](vinci-1.0.5.zip) | Source codes for a modified version of Vinci |
+| [z3-master.zip](z3-master.zip) | Source codes of Z3 |
 
 ## Build status
 This release of VolCE has been successfully built on the following operating systems:
@@ -28,8 +28,8 @@ This release of VolCE has been successfully built on the following operating sys
 ```bash
 sh build.sh
 ```
-* Step 4: Build and install [LattE](https://www.math.ucdavis.edu/~latte/). Then move the executable files (count and scdd gmp) into directory \bin/".
-* Quick test: Execute
+* Step 4: Build and install [LattE](https://www.math.ucdavis.edu/~latte/). Then move the executable files (count and scdd\_gmp) into directory \bin/". For 64-bit user, one could copy count and scdd\_gmp directly from [compiled binary files](release_64bit/volce3_release_64bit.zip)
+* Quick test, simply execute
 ```bash
 ./volce3 -h
 ```
@@ -50,7 +50,7 @@ sh build.sh
 ```
 
 Build and install [LattE](https://www.math.ucdavis.edu/~latte/), then move the executable files (count and
-scdd gmp) into directory \bin/".
+scdd\_gmp) into directory \bin/". For 64-bit user, one could copy count and scdd\_gmp directly from [compiled binary files](release_64bit/volce3_release_64bit.zip)
 
 Note: On older versions of Ubuntu, you may need install g++-4.8 (or higher version) by hand.
 
