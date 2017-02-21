@@ -2,6 +2,13 @@
 #include "glpk.h"
 #include <limits>
 
+bool check_all_zeros(arma::rowvec r) {
+	for (arma::rowvec::iterator it = r.begin(); it != r.end(); it++) {
+		if (*it != 0) return false;
+	}
+	return true;
+}
+
 //////////////////////////////////////////////////////////////////////
 //// Initialization //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -260,11 +267,10 @@ const double volce::solver::volume_estimation_basic(int *bools, unsigned int nRo
 		}
 		
 		for (unsigned int j = 0; j < counter; j++){
-			if (max(p.A.row(counter) + p.A.row(j)) == 0 &&
-				min(p.A.row(counter) + p.A.row(j)) == 0 &&
+			if (check_all_zeros(p.A.row(counter) + p.A.row(j)) &&
 				p.b(counter) == (-1) * p.b(j)){
 				//degenerate
-				//cout << "DEGENERATE" << std::endl;
+				//std::cout << "DEGENERATE" << std::endl;
 				return 0;
 			}
 		}
