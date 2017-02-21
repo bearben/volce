@@ -30,11 +30,11 @@ sh build.sh
 ```
 * Step 4: Build and install [LattE](https://www.math.ucdavis.edu/~latte/). Then move the executable files (*count* and *scdd\_gmp*) into directory *bin/*. For 64-bit user, one could copy *count* and *scdd\_gmp* directly from [compiled binary files](release_64bit/volce3_release_64bit.zip).
 
-Quick test, simply execute
+Quick test, simply execute:
 ```bash
 ./volce3 -h
 ```
-VolCE should pop up the help by this command.
+VolCE should pop up the help menu by this command.
 
 **Note:** Move or copy *volce3* with directory *bin/* together since VolCE3 requires the tools in *bin/*.
 
