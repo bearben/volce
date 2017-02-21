@@ -3,7 +3,7 @@
 EXEC = volce3
 
 INCLUDE_FLAGS = -Iusr/include -Isrc -Iz3-master/include
-LIB_FLAGS = z3-master/lib/libz3.so -lglpk -larmadillo -llapack -lblas -lgfortran -lm -lz -lgmp -ldl
+LIB_FLAGS = z3-master/lib/libz3.so -lglpk -larmadillo -lm -ldl
 
 # set up compiler and options
 CXX = g++
