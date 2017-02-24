@@ -440,12 +440,12 @@ public:
 	const double 	call_vinci(const unsigned int index) {
 						if (!islra()) err_logic_vinci();
 						return volume_computation(bsols[index]) * multiplier[index]; };
-	const double 	call_polyvest(const double coef) {
+	const double 	call_polyvest(const double epsilon, const double delta, const double coef) {
 						if (!islra()) err_logic_polyvest();
-						return volume_estimation(bsols.back(), coef) * multiplier.back(); };
-	const double 	call_polyvest(const unsigned int index, const double coef) {
+						return volume_estimation(bsols.back(), epsilon, delta, coef) * multiplier.back(); };
+	const double 	call_polyvest(const unsigned int index, const double epsilon, const double delta, const double coef) {
 						if (!islra()) err_logic_polyvest();
-						return volume_estimation(bsols[index], coef) * multiplier[index]; };
+						return volume_estimation(bsols[index], epsilon, delta, coef) * multiplier[index]; };
 	
 	//print
 	void 			print_ast(const dagc root);
@@ -580,8 +580,9 @@ private:
 	const bool 		merge_sols(int *source, int *target);
 	const unsigned int factorize_bsol(int *bools, std::vector<int*> &pbools);
 	const bool		bound_checking(int *bools, unsigned int nRows, std::vector<int> vars);
-	const double 	volume_estimation_basic(int *bools, unsigned int nRows, std::vector<int> vars, double coef);
-	const double 	volume_estimation(int *boolsol, double coef);
+	const double 	volume_estimation_basic(int *bools, unsigned int nRows, std::vector<int> vars, 
+							double epsilon, double delta, double coef);
+	const double 	volume_estimation(int *boolsol, double epsilon, double delta, double coef);
 	const double 	volume_computation_light(int *bools, int var);
 	const double 	volume_computation_basic(int *bools, unsigned int nRows, std::vector<int> vars);
 	const double 	volume_computation(int *boolsol);

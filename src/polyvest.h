@@ -1,10 +1,10 @@
 /*  polyvest.h
  *
- *  Copyright (C) 2016-2017 Cunjing Ge.
+ *  Copyright (C) 2015-2017 Cunjing Ge.
  *
  *  All rights reserved.
  *
- *  This file is part of VolCE.
+ *  This file is part of PolyVest.
  *  See COPYING for more information on using this software.
  */
 
@@ -30,7 +30,7 @@ public:
 	double 	vecb(double val, int i){ return (b(i) = val); }
 	double 	vecb(int i){ return b(i); }
 	bool 	Preprocess();
-	double 	EstimateVol(double coef);
+	double 	EstimateVol(double epsilon, double delta, double coef);
 	double 	Volume() const { return vol; }
 
 	bool 	msg_off;

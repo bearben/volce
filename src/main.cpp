@@ -19,32 +19,49 @@ void printUsage(char* exec_name){
 	cout << endl;
 	cout << "USAGE: " << exec_name << " [OPTION]... <INPUT-FILE> [OUTPUT-FILE]" << endl << endl;
 	cout << "OPTIONS:" << endl;
-	cout << "  -P,-p       \t Enable PolyVest for volume approximation. The input of" << endl;
-    cout << "              \t linear inequalities are reals. By default, VolCE calls" << endl;
-    cout << "              \t PolyVest. And it requires that all the numeric variables" << endl;
-    cout << "              \t are reals (QF_LRA logic)." << endl;
-    cout << "  -V,-v       \t Enable Vinci for volume computation. The input of linear" << endl;
-    cout << "              \t inequalities are reals (QF_LRA logic)." << endl;
-    cout << "  -L,-l       \t Enable LattE to count integer solutions. The input of" << endl;
-    cout << "              \t linear inequalities should be integers (QF_LIA logic)." << endl;
-    cout << "  -w={0,1,...}\t Specify the word length of numeric variables in bit-wise." << endl;
-    cout << "              \t Set word length to 0 will disable this feature. By default," << endl;
-    cout << "              \t the word length is 0." << endl;
-    cout << "  -maxc={real}\t Set maximum sampling coefficient of PolyVest, which is an" << endl;
-    cout << "              \t upper bound. Generally, the larger coefficient, the more" << endl;
-    cout << "              \t accurate, however, the slower. The default value is 1.0." << endl;
-    cout << "  -minc={real}\t Like option -maxc, this option set the minimum sampling" << endl;
-	cout << "              \t coefficient of PolyVest. The default value is 0.01." << endl;
-	cout << "  -bunch={0,1}\t Enable (1) or disable (0) the bunch strategy. By default," << endl;
-	cout << "              \t this strategy is enabled." << endl;
-	cout << "  -fact={0,1}\t Enable (1) or disable (0) the factorization strategy." << endl;
-	cout << "              \t It can be very efficient for problems whose variables " << endl;
-	cout << "              \t are less connective. By default, this strategy is enabled." << endl;
-	cout << "  -verb={0,1} \t The verbosity of output. Positive value will enable pretty" << endl;
-	cout << "              \t print. Otherwise, only print the final result. The default" << endl;
-	cout << "              \t value is 1." << endl;
+	cout << "  -P,-p       \t   Enable PolyVest for volume approximation. The input " << endl;
+    cout << "              \t   of linear inequalities are reals. By default, VolCE " << endl;
+    cout << "              \t   calls PolyVest. And it requires that all the numeric " << endl;
+    cout << "              \t   variables are reals (QF_LRA logic)." << endl;
+    cout << endl;
+    cout << "  -V,-v       \t   Enable Vinci for volume computation. The input of li-" << endl;
+    cout << "              \t   near inequalities are reals (QF_LRA logic)." << endl;
+    cout << endl;
+    cout << "  -L,-l       \t   Enable LattE to count integer solutions. The input of" << endl;
+    cout << "              \t   linear inequalities should be integers (QF_LIA logic)." << endl;
+    cout << endl;
+    cout << "  -w={0,1,...}\t   Specify the word length of numeric variables in bit" << endl;
+    cout << "              \t   -wise. Set this value to 0 will disable this feature. " << endl;
+    cout << "              \t   By default, it is 0." << endl;
+    cout << endl;
+    cout << "  -epsilon={real}  VolCE with PolyVest can approximate the volume with " << endl;
+    cout << "              \t   (epsilon, delta)-bound, i.e., the result lies in the " << endl;
+    cout << "              \t   interval [#F/(1+epsilon), (1+epsilon)#F] with proba-" << endl;
+    cout << "              \t   bility at least 1-delta. The default value is 0.5. " << endl;
+    cout << endl;
+    cout << "  -delta={real}\t   Delta should be a real in (0, 1) that works with ep- " <<endl;
+    cout << "              \t   silon together. The default value is 0.1." << endl;
+    cout << endl;
+    cout << "  -frw={real} \t   This option sets the weight of first round of esti-" << endl;
+	cout << "              \t   mation, and it only works while PolyVest is enabled. " << endl;
+	cout << "              \t   Generally, the larger weight, the more accurate, ho-" << endl;
+    cout << "              \t   wever, the slower. This value should be a real in " << endl;
+    cout << "              \t   (0, 1]. The default value is 0.01." << endl;
+    cout << endl;
+	cout << "  -bunch={0,1}\t   Enable (1) or disable (0) the bunch strategy. This " << endl;
+	cout << "              \t   strategy is enabled by default." << endl;
+    cout << endl;
+	cout << "  -fact={0,1} \t   Enable (1) or disable (0) the factorization strategy." << endl;
+	cout << "              \t   It can be very efficient for problems whose variables " << endl;
+	cout << "              \t   are less connective. By default, this strategy is en-" << endl;
+	cout << "              \t   abled. " << endl;
+    cout << endl;
+	cout << "  -verb={0,1} \t   The verbosity of output. Positive value will enable " << endl;
+	cout << "              \t   pretty print. Otherwise, only print the final result. " << endl;
+	cout << "              \t   The default value is 1." << endl;
+    cout << endl;
     cout << "INPUT-FILE:" << endl;
-    cout << "  .smt2       \t SMT-LIBv2 language input." << endl;
+    cout << "  .smt2       \t   SMT-LIBv2 language input." << endl;
     //cout << "  .vs or other\t Recognize as VolCE style input." << endl;
 	cout << endl;
 }
@@ -62,8 +79,10 @@ int main(int argc, char **argv) {
 	bool 	vinci 		= false;
 	bool 	latte 		= false;
 	int 	wordlength 	= 0;
+	double 	epsilon		= 0.5;
+	double	delta		= 0.1;
 	double 	maxc 		= 1;
-	double 	minc 		= 0.01;
+	double 	minc 		= 0.01;	// first round weight
 	bool	bunch		= true;
 	bool 	fact 		= true;
 	int 	verbosity 	= 1;
@@ -105,17 +124,26 @@ int main(int argc, char **argv) {
 				cout << "Use '-h' or '--help' for help." << endl;
 				exit(0);
 			}
-		}else if (key == "-maxc"){
-			//max coefficient
+		}else if (key == "-epsilon"){
+			// epsilon
 			try {
-				maxc = stod(value);				
+				epsilon = stod(value);				
 			}catch (const invalid_argument&){
 				cout << "error: Invalid value \"" << value << "\" for argument \"" << key << "\"." << endl;
 				cout << "Use '-h' or '--help' for help." << endl;
 				exit(0);
 			}
-		}else if (key == "-minc"){
-			//min coefficient
+		}else if (key == "-delta"){
+			// delta
+			try {
+				delta = stod(value);				
+			}catch (const invalid_argument&){
+				cout << "error: Invalid value \"" << value << "\" for argument \"" << key << "\"." << endl;
+				cout << "Use '-h' or '--help' for help." << endl;
+				exit(0);
+			}
+		}else if (key == "-frw"){
+			//first round weight
 			try {
 				minc = stod(value);
 			}catch (const invalid_argument&){
@@ -185,6 +213,24 @@ int main(int argc, char **argv) {
     if (polyvest) {
     	cout << "-P\t\tEnable PolyVest." << endl;
 
+		if (epsilon > 0) 
+			cout << "-epsilon=" << epsilon << "\tSet the value of Epsilon to " << epsilon << "." << endl;
+		else {
+			cout << "error: The value of Epsilon should be positive." << endl;
+			cout << "Use '-h' or '--help' for help." << endl;
+			exit(0);
+		}
+
+
+		if (delta > 0 && delta < 1) 
+			cout << "-delta=" << delta << "\tSet the value of Delta to " << delta << "." << endl;
+		else {
+			cout << "error: The value of max coefficient should lie in (0, 1)." << endl;
+			cout << "Use '-h' or '--help' for help." << endl;
+			exit(0);
+		}
+
+/*
 		if (maxc > 0) 
 			cout << "-maxc=" << maxc << "\t\tSet max coefficient to " << maxc << "." << endl;
 		else {
@@ -192,11 +238,11 @@ int main(int argc, char **argv) {
 			cout << "Use '-h' or '--help' for help." << endl;
 			exit(0);
 		}
-
-		if (minc > 0) 
-			cout << "-minc=" << minc << "\tSet min coefficient to " << minc << "." << endl;
+*/
+		if (minc > 0 && minc <= 1) 
+			cout << "-frw=" << minc << "\tSet weight of first round to " << minc << "." << endl;
 		else {
-			cout << "error: The value of min coefficient should be positive." << endl;
+			cout << "error: The weight of first round should lie in (0, 1]." << endl;
 			cout << "Use '-h' or '--help' for help." << endl;
 			exit(0);
 		}
@@ -397,7 +443,7 @@ int main(int argc, char **argv) {
    		}
    		for (unsigned int i = 0; i < s.bunch_list.size(); i++){
 
-			vol[i] = s.call_polyvest(i, minc);
+			vol[i] = s.call_polyvest(i, epsilon, delta, minc);
   			
   			if (verbosity > 0) {
   				cout << i + 1 << "\t" << vol[i] << endl;
@@ -420,7 +466,7 @@ int main(int argc, char **argv) {
  	  		
  	  		if (coef > minc){
  	  		
-	  			vol[i] = s.call_polyvest(i, coef);
+	  			vol[i] = s.call_polyvest(i, epsilon, delta, coef);
 	  			
   				if (verbosity > 0) { 
   					cout << i + 1 << "\t" << coef << "\t" << vol[i] << endl;

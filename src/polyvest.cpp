@@ -1,16 +1,17 @@
 /*  polyvest.cpp
  *
- *  Copyright (C) 2016-2017 Cunjing Ge.
+ *  Copyright (C) 2015-2017 Cunjing Ge.
  *
  *  All rights reserved.
  *
- *  This file is part of VolCE.
+ *  This file is part of PolyVest.
  *  See COPYING for more information on using this software.
  */
 
 
 #include "polyvest.h"
 #include "glpk.h"
+#include <boost/math/distributions/normal.hpp>
 
 #define PI 3.1415926536
 
@@ -18,9 +19,11 @@ using namespace std;
 using namespace polyvest;
 using namespace arma;
 
-double abs(double x){
-	return (x > 0) ? x : -x;
-}
+
+// auxiliary functions
+//double abs(double x){
+	//return (x > 0) ? x : -x;
+//}
 
 double uballVol(int n){
 	double vol = 1;
@@ -34,6 +37,30 @@ double uballVol(int n){
 		for (int i = 1; i < k + 1; i++) vol *= PI / i;
 	}
 	return vol;
+}
+
+double zvalue(double x) {
+
+	double a1 =  0.254829592;
+    double a2 = -0.284496736;
+    double a3 =  1.421413741;
+    double a4 = -1.453152027;
+    double a5 =  1.061405429;
+    double p  =  0.3275911;
+
+	double sign = 1;
+    
+    if (x < 0) {
+        sign = -1;
+	}
+    x = abs(x)/sqrt(2.0);
+
+    // A&S formula 7.1.26
+    double t = 1.0/(1.0 + p*x);
+    double y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
+
+    return 1.0 - sign*y;
+
 }
 
 /*********** Delete Redundent Hyperplanes ***********/
@@ -224,10 +251,12 @@ bool polytope::Preprocess(){
 	return true;
 }
 
-double polytope::EstimateVol(double coef = 1.0){
+double polytope::EstimateVol(double epsilon, double delta, double coef = 1.0){
 	int k, i, j;
 
-	const long stepsz = coef * 21 * l * l; //size of sampling
+	boost::math::normal dist(0.0, 1.0);
+	const double z = boost::math::quantile(dist, 1.0-delta/2);
+	const long stepsz = coef * pow((z * l / log(1+epsilon) + z), 2) + 1; //size of sampling
 	long counter = 0;
 
 	double *alpha = new double[l];

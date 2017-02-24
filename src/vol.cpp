@@ -216,7 +216,8 @@ const bool volce::solver::bound_checking(int *bools, unsigned int nRows, std::ve
 //////////////////////////////////////////////////////////////////////
 //// Volume Estimation ///////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-const double volce::solver::volume_estimation_basic(int *bools, unsigned int nRows, std::vector<int> vars, double coef){
+const double volce::solver::volume_estimation_basic(int *bools, unsigned int nRows, std::vector<int> vars, 
+		double epsilon, double delta, double coef){
 	//nVars: the number of "decided" numeric variables
 	//nRows: the number of "decided" linear formulas
 	//nFormulas: the number of linear formulas
@@ -289,7 +290,7 @@ const double volce::solver::volume_estimation_basic(int *bools, unsigned int nRo
 	}
 
 	if (p.Preprocess()){
-		p.EstimateVol(coef);
+		p.EstimateVol(epsilon, delta, coef);
 		return p.Volume();
 	}else{
 		//degenerate
@@ -298,7 +299,7 @@ const double volce::solver::volume_estimation_basic(int *bools, unsigned int nRo
 	}
 }
 
-const double volce::solver::volume_estimation(int *boolsol, double coef){
+const double volce::solver::volume_estimation(int *boolsol, double epsilon, double delta, double coef){
 	std::vector<int> vars;
 	unsigned int nRows = 0;
 	double vol = 1;
@@ -333,7 +334,7 @@ const double volce::solver::volume_estimation(int *boolsol, double coef){
 		else if (nVars_decided_total == 1)
 			return volume_computation_light(boolsol, vars.back()) * cube_vol;
 		else				
-			return volume_estimation_basic(boolsol, nRows, vars, coef) * cube_vol;
+			return volume_estimation_basic(boolsol, nRows, vars, epsilon, delta, coef) * cube_vol;
 	}
 	
 	//factorization
@@ -358,8 +359,10 @@ const double volce::solver::volume_estimation(int *boolsol, double coef){
 		
 		if (nVars_decided == 1)
 			vol *= volume_computation_light(pbools[i], vars.back());
-		else
-			vol *= volume_estimation_basic(pbools[i], nRows, vars, coef * npbools);
+		else {
+			// increase coef while partitions into some pieces
+			vol *= volume_estimation_basic(pbools[i], nRows, vars, epsilon, delta, coef * npbools);
+		}
 	}
 	
 	assert(nVars_decided_total <= nVars);

@@ -180,6 +180,7 @@ const bool volce::solver::solve() {
 	// extract the model
 	z3::model z3model = z3solver.get_model();
 	
+	//init with -1
 	ineq_list.init_vals();
 	vbool_list.init_vals();
 	
@@ -337,7 +338,19 @@ GOTO_BUNCH_CYCLE:
 			}
 		} else break;
 */
-	
+/*
+	print_model();
+	std::cout << std::endl;
+	for (unsigned int i = 0; i < assert_list.size(); i++) {
+		print_ast(assert_list[i]);
+		std::cout << std::endl;
+	}
+	for (unsigned int i = 0; i < ineq_list.size(); i++) {
+		print_ineq(i);
+		std::cout << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+*/	
 	// store bunches
 	bunch_elem bunch(ineq_list, vbool_list);
 	bunch_list.push_back(bunch);
@@ -486,35 +499,58 @@ void volce::solver::get_flip_list(std::vector<bool> &ineq_flip, std::vector<bool
 		bunch_elem &prev_bunch = bunch_list[i];
 		
 		unsigned int differ_count = 0;
+		int ineq_id = -1;
+		int vbool_id = -1;
 		
-		// first ineq_val
+		// check ineq_val
 		// ineq_list.size() == target.ineq_val.size() == prev_bunch.ineq_val.size()
 		for (unsigned int j = 0; j < ineq_list.size() && differ_count <= 1; j++) {
 		
 			if (ineq_list(j).is_unknown() || prev_bunch.ineq_vals[j].is_unknown()) {
-				// skip unknown, since it can be anything
+				// skip unknown, treat as equal value
 				continue;
 			} else if (ineq_list(j).is_true() != prev_bunch.ineq_vals[j].is_true()) {
-				// find differ value
-				differ_count += 1;
-				ineq_flip[j] = false;
+				// differ value found
+				if (differ_count == 1) 
+					goto GOTO_NEXT_BUNCH;
+				else {
+					differ_count++;
+					ineq_id = j;
+				}
 			}
 		}
 		
-		// then vbool_val
+		// check vbool_val
 		// vbool_list.size() == target.vbool_val.size() == prev_bunch.vbool_val.size()
 		for (unsigned int j = 0; j < vbool_list.size() && differ_count <= 1; j++) {
 		
 			if (vbool_list(j).is_unknown() || prev_bunch.vbool_vals[j].is_unknown()) {
-				// skip unknown, since it can be anything
+				// skip unknown, treat as equal value
 				continue;
 			} else if (vbool_list(j).is_true() != prev_bunch.vbool_vals[j].is_true()) {
-				// find differ value
-				differ_count += 1;
-				vbool_flip[j] = false;
+				// differ value found
+				if (differ_count == 1) 
+					goto GOTO_NEXT_BUNCH;
+				else {
+					differ_count++;
+					vbool_id = j;
+				}
 			}
-		
 		}
+		
+		assert(differ_count == 1);
+		assert(ineq_id >= 0 || vbool_id >= 0);
+		assert(ineq_id < 0 || vbool_id < 0);
+		
+		// a similar bunch found, set dangerous flip
+		if (ineq_id >= 0) {
+			ineq_flip[ineq_id] = false;
+		} else {
+			vbool_flip[vbool_id] = false;
+		} 
+		
+GOTO_NEXT_BUNCH:;
+		
 	}
 }
 					
