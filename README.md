@@ -8,9 +8,9 @@ VolCE is a tool designed for computing or estimating the size of the solution sp
 |  ------------- | ------------- |
 | [release_64bit/](release_64bit/)	| Binary files compiled on Ubuntu 14.04 64-bit, including Z3, Vinci and LattE |
 | [src/](src/) | Sorce codes |
+| [benchmarks.zip](examples.zip) | The complete set of benchmarks |
 | [build.sh](build.sh) | Shell for building VolCE |
 | [COPYING](COPYING) | GNU GPL lincese |
-| [benchmarks.zip](examples.zip) | The complete set of benchmarks |
 | [makefile](makefile) | makefile |
 | [manual.pdf](manual.pdf) | Manual for VolCE |
 | [vinci-1.0.5.zip](vinci-1.0.5.zip) | Source codes for a modified version of Vinci |
