@@ -10,7 +10,7 @@ VolCE is a tool designed for computing or estimating the size of the solution sp
 | [src/](src/) | Sorce codes |
 | [build.sh](build.sh) | Shell for building VolCE |
 | [COPYING](COPYING) | GNU GPL lincese |
-| [examples.zip](examples.zip) | Some examples of SMT(LA) formulas |
+| [benchmarks.zip](examples.zip) | The complete set of benchmarks |
 | [makefile](makefile) | makefile |
 | [manual.pdf](manual.pdf) | Manual for VolCE |
 | [vinci-1.0.5.zip](vinci-1.0.5.zip) | Source codes for a modified version of Vinci |
