@@ -815,7 +815,7 @@ const double volce::solver::lattice_counting(int *boolsol){
 		//cout << "The number of decided variables: " << vars.size() << std::endl;
 		
 		//volume of cube consisted of undecided variables
-		double cube_count = pow(pow(2, wordlength) + 1, nVars_undecided);
+		double cube_count = pow(pow(2, wordlength), nVars_undecided);
 		if (wordlength == 0 && nVars_undecided > 0) {
 			//unbounded
 			err_unbounded_polytope();
@@ -865,9 +865,9 @@ const double volce::solver::lattice_counting(int *boolsol){
 	}
 	
 	if (nVars_decided_total == 0)
-		return pow(pow(2, wordlength) + 1, nVars);
+		return pow(pow(2, wordlength), nVars);
 	else
-		return count * pow(pow(2, wordlength) + 1, nVars - nVars_decided_total);
+		return count * pow(pow(2, wordlength), nVars - nVars_decided_total);
 }
 
 

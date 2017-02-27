@@ -156,7 +156,10 @@ void volce::solver::err_solving_initialized() const {
 
 //unbounded polytope
 void volce::solver::err_unbounded_polytope() const {
-	std::cout << std::endl << "The problem is unbounded." << std::endl;
+	std::cout << "\nThe problem is unbounded.\n\n";
+	std::cout << "Hint: VolCE provides wordlength parameter (-w) to quickly set bound \n"
+			  << "      to each variable with bit-wise domain. For details, check the \n"
+			  << "      help menu with '-h' or '--help'.\n";
 	exit(1);
 }
 

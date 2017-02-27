@@ -416,6 +416,7 @@ public:
 						return mk_not(mk_ineq(false, l, r)); };
 
 	//LOGIC
+	const bool		logic_not_set() const { return logic == UNKNOWN_LOGIC; };
 	const bool		islia() const { return logic == QF_LIA; };
 	const bool		islra() const { return logic == QF_LRA; };
 

@@ -364,13 +364,13 @@ int main(int argc, char **argv) {
 		cout << endl << "The problem is unsat." << endl;
   		
   		//print to output
-  		ofstream fout(output_file);
-		fout << "unsat" << endl;
+  		ofstream fout(output_file, std::ios::app);
+		fout << input_file << " unsat" << endl;
 	  	fout.close();	
 
 		return 1;
 	}
-	
+		
  	//////////////////////////////////////////////////////////////////////
 	
 	double total_latte = 0;
@@ -495,12 +495,48 @@ int main(int argc, char **argv) {
   	if (polyvest) cout << "The total volume (PolyVest): " << total_polyvest << endl;
   	cout << endl << "====================================" << endl << endl;
   	
+  	
   	//print to output
-  	ofstream fout(output_file);
-   	if (latte) fout << total_latte << endl;
-  	if (vinci) fout << total_vinci << endl;
-  	if (polyvest) fout << total_polyvest << endl;
-  	fout.close();	
+
+  	ofstream fout(output_file, std::ios::app);
+   	if (latte) {
+   		fout << input_file << ' '
+  			<< total_latte << ' ' 
+  			<< s.vbool_list.size() << ' ' 
+			<< s.vnum_list.size() << ' '
+			<< s.ineq_list.size() << ' '
+			<< s.bunch_list.size() << ' '
+			<< s.stats_fact_bunches << ' '
+			<< s.stats_vol_calls << ' '
+			<< s.stats_vol_reuses << ' ' 
+			<< (double)s.stats_total_dims / s.stats_vol_calls << endl;
+   	}
+  	if (vinci) {
+  	  	fout << input_file << ' '
+  			<< total_vinci << ' ' 
+  			<< s.vbool_list.size() << ' ' 
+			<< s.vnum_list.size() << ' '
+			<< s.ineq_list.size() << ' '
+			<< s.bunch_list.size() << ' '
+			<< s.stats_fact_bunches << ' '
+			<< s.stats_vol_calls << ' '
+			<< s.stats_vol_reuses << ' ' 
+			<< (double)s.stats_total_dims / s.stats_vol_calls << endl;
+  	}
+  	if (polyvest){
+  		fout << input_file << ' '
+  			<< total_polyvest << ' ' 
+  			<< s.vbool_list.size() << ' ' 
+			<< s.vnum_list.size() << ' '
+			<< s.ineq_list.size() << ' '
+			<< s.bunch_list.size() << ' '
+			<< s.stats_fact_bunches << ' '
+			<< s.stats_vol_calls << ' '
+			<< s.stats_vol_reuses << ' ' 
+			<< (double)s.stats_total_dims / s.stats_vol_calls << endl;
+  	}
+  	fout.close();
+
 	
 	//////////////////////////////////////////////////////////////////////
 
