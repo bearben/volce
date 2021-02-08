@@ -309,20 +309,21 @@ int main(int argc, char **argv) {
 	        break;
 	    }
 	if (verbosity > 0) cout << "VolCE Directory: " << current_absolute_path << endl;
+	string absdir(current_absolute_path);
   
     //obtain working directory    
 	string execdir = getcwd(execution_path, sizeof(execution_path));
 	if (verbosity > 0) cout << "Working Directory: " << execdir;
 
 	//compare working directory and absolute path
-	if (strcmp(current_absolute_path, execdir.c_str()) != 0){
-		if (verbosity > 0) cout << endl << endl << 
-			"warning: Working directory is not the absolute path of VolCE." << endl;
+	if (strcmp(absdir.c_str(), execdir.c_str()) != 0){
+		if (verbosity > 0) 
+			cout << endl << endl << "warning: Working directory is not the absolute path of VolCE." << endl;
 	}else{
 		if (verbosity > 0) cout << "   ... OK" << endl;
 	}
 	
-	string bindir = execdir + "/bin";
+	string bindir = absdir + "/bin";
 
  	//////////////////////////////////////////////////////////////////////
 

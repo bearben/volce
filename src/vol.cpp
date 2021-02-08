@@ -450,7 +450,7 @@ const double volce::solver::volume_computation_basic(int *bools, unsigned int nR
 	stats_total_dims += nVars;
 	
 	// compute
-	std::string filename = tooldir + "/vinci_input_tmp"; //.ine
+	std::string filename = "vinci_input_tmp"; //.ine
 
 	if (wordlength > 0) nRows += 2 * nVars;
 	
@@ -511,7 +511,7 @@ const double volce::solver::volume_computation_basic(int *bools, unsigned int nR
 	//read result
 	std::ifstream ifile;
 	double vol = 0;
-	filename = resultdir + "/vinci.result";
+	filename = "vinci.result";
 
 	ifile.open(filename);
 	if (!ifile.is_open()) {
@@ -700,7 +700,7 @@ const double volce::solver::lattice_counting_basic(int *bools, unsigned int nRow
 	stats_total_dims += nVars;
 	
 	//counting
-	std::string filename = tooldir + "/latte_input_tmp"; //.ine
+	std::string filename = "latte_input_tmp";
 
 	if (wordlength > 0) nRows += 2 * nVars;
 	
@@ -780,7 +780,7 @@ const double volce::solver::lattice_counting_basic(int *bools, unsigned int nRow
 	//read result
 	std::ifstream ifile;
 	double count = 0;
-	filename = resultdir + "/numOfLatticePoints";
+	filename = "numOfLatticePoints";
 
 	ifile.open(filename);
 	if (!ifile.is_open()) {
